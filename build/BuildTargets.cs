@@ -126,7 +126,7 @@ class BuildTargets : NukeBuild
                 .EnableSelfContained()
                 .AddProperty("PublishSingleFile", "true")
                 .AddProperty("PublishTrimmed", "true")
-                .SetRuntime("win-x64")); ;
+                .SetRuntime("win-x64"));
 
             DotNetPublish(_ => _
                 .SetConfiguration(Configuration)
@@ -137,7 +137,7 @@ class BuildTargets : NukeBuild
                 .EnableSelfContained()
                 .AddProperty("PublishSingleFile", "true")
                 .AddProperty("PublishTrimmed", "true")
-                .SetRuntime("win-x86")); ;
+                .SetRuntime("win-x86"));
 
             CompressionTasks.CompressZip(
                 BuildDirectory,

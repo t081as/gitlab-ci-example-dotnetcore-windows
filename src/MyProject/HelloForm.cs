@@ -23,22 +23,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
+using System.Windows.Forms;
 
 namespace MyProject
 {
     /// <summary>
-    /// Contains the main entry point of the application.
+    /// Represents the main window of the application.
     /// </summary>
-    public class Program
+    public partial class HelloForm : Form
     {
         /// <summary>
-        /// The main entry point of the application.
+        /// Initializes a new instance of the <see cref="HelloForm"/> class.
         /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        public static void Main(string[] args)
+        public HelloForm()
         {
-            Console.WriteLine("Hello World!");
+            InitializeComponent();
         }
     }
 }
