@@ -33,24 +33,27 @@ class BuildTargets : NukeBuild
     AbsolutePath BuildDirectory => OutputDirectory / "build";
     AbsolutePath PublishDirectory => OutputDirectory / "publish";
     AbsolutePath CoverageDirectory => OutputDirectory / "coverage";
+    AbsolutePath MainProjectFile => SourceDirectory / "MyProject" / "MyProject.csproj";
 
     readonly string GlobCoverageFiles = "**/TestResults/*/coverage.cobertura.xml";
     readonly string GlobTestResultFiles = "**/TestResults/TestResults.xml";
 
     Target Clean => _ => _
-        .Before(Restore)
         .Executes(() =>
         {
             RootDirectory.GlobFiles(GlobCoverageFiles).ForEach(DeleteFile);
             RootDirectory.GlobFiles(GlobTestResultFiles).ForEach(DeleteFile);
             RootDirectory.GlobFiles("*.zip").ForEach(DeleteFile);
 
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            EnsureCleanDirectory(BuildDirectory);
+            EnsureCleanDirectory(PublishDirectory);
+            EnsureCleanDirectory(CoverageDirectory);
             EnsureCleanDirectory(OutputDirectory);
+            DotNetClean();
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(_ => _
@@ -61,11 +64,24 @@ class BuildTargets : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DotNetBuild(_ => _
-                .SetProjectFile(Solution)
-                .SetOutputDirectory(BuildDirectory)
-                .SetConfiguration(Configuration)
-                .EnableNoRestore());
+            if (Configuration == Configuration.Release)
+            {
+                DotNetBuild(_ => _
+                    .SetProjectFile(MainProjectFile)
+                    .SetOutputDirectory(BuildDirectory)
+                    .SetConfiguration(Configuration)
+                    .AddProperty("DebugType", "None")
+                    .AddProperty("DebugSymbols", "false")
+                    .EnableNoRestore());
+            }
+            else
+            {
+                DotNetBuild(_ => _
+                    .SetProjectFile(Solution)
+                    .SetOutputDirectory(BuildDirectory)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore());
+            }
         });
 
     Target Test => _ => _
@@ -102,29 +118,47 @@ class BuildTargets : NukeBuild
         .Executes(() =>
         {
             DotNetPublish(_ => _
-                .EnableNoRestore()
                 .SetConfiguration(Configuration)
-                .SetProject(Solution)
-                .SetSelfContained(true)
+                .AddProperty("DebugType", "None")
+                .AddProperty("DebugSymbols", "false")
+                .SetProject(MainProjectFile)
                 .SetOutput(PublishDirectory / "win-x64")
+                .EnableSelfContained()
+                .AddProperty("PublishSingleFile", "true")
+                .AddProperty("PublishTrimmed", "true")
                 .SetRuntime("win-x64")); ;
 
             DotNetPublish(_ => _
-                .EnableNoRestore()
                 .SetConfiguration(Configuration)
-                .SetProject(Solution)
-                .SetSelfContained(true)
+                .AddProperty("DebugType", "None")
+                .AddProperty("DebugSymbols", "false")
+                .SetProject(MainProjectFile)
                 .SetOutput(PublishDirectory / "win-x86")
+                .EnableSelfContained()
+                .AddProperty("PublishSingleFile", "true")
+                .AddProperty("PublishTrimmed", "true")
                 .SetRuntime("win-x86")); ;
 
             CompressionTasks.CompressZip(
                 BuildDirectory,
-                RootDirectory / "MyProject-windows-any",
+                RootDirectory / "MyProject-windows-any.zip",
                 null,
                 System.IO.Compression.CompressionLevel.Optimal,
                 System.IO.FileMode.CreateNew);
 
-            
+            CompressionTasks.CompressZip(
+                PublishDirectory / "win-x64",
+                RootDirectory / "MyProject-windows-amd64.zip",
+                null,
+                System.IO.Compression.CompressionLevel.Optimal,
+                System.IO.FileMode.CreateNew);
+
+            CompressionTasks.CompressZip(
+                PublishDirectory / "win-x86",
+                RootDirectory / "MyProject-windows-i386.zip",
+                null,
+                System.IO.Compression.CompressionLevel.Optimal,
+                System.IO.FileMode.CreateNew);
         });
 
     Target All => _ => _
