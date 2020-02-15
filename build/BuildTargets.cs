@@ -17,17 +17,18 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [UnsetVisualStudioEnvironmentVariables]
 class BuildTargets : NukeBuild
 {
-    public static int Main () => Execute<BuildTargets>(x => x.Compile);
+    public static int Main () => Execute<BuildTargets>(x => x.All);
 
     [Parameter("Configuration to build")]
     readonly Configuration Configuration = Configuration.Debug;
 
     [Solution] readonly Solution Solution;
-    [GitRepository] readonly GitRepository GitRepository;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath OutputDirectory => RootDirectory / "output";
+    AbsolutePath BuildDirectory => OutputDirectory / "build";
+    AbsolutePath CoverageDirectory => OutputDirectory / "coverage";
 
     Target Clean => _ => _
         .Before(Restore)
@@ -50,9 +51,43 @@ class BuildTargets : NukeBuild
         .Executes(() =>
         {
             DotNetBuild(_ => _
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .EnableNoRestore());
+                    .SetProjectFile(Solution)
+                    .SetOutputDirectory(BuildDirectory)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore());
         });
+
+    Target Test => _ => _
+        .DependsOn(Compile)
+        .OnlyWhenStatic(() => Configuration == Configuration.Debug)
+        .Executes(() =>
+        {
+            if (Configuration == Configuration.Debug)
+            {
+                DotNetTest(_ => _
+                    .SetProjectFile(Solution)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore()
+                    .EnableNoBuild());
+            }
+        });
+
+    Target Publish => _ => _
+        .DependsOn(Compile)
+        .OnlyWhenStatic(() => Configuration == Configuration.Release)
+        .Executes(() =>
+        {
+            if (Configuration == Configuration.Debug)
+            {
+                DotNetTest(_ => _
+                    .SetProjectFile(Solution)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore()
+                    .EnableNoBuild());
+            }
+        });
+
+    Target All => _ => _
+        .DependsOn(Publish, Test);
 
 }
