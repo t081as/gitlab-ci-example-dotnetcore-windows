@@ -23,7 +23,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MyProject.Tests
@@ -34,6 +33,9 @@ namespace MyProject.Tests
     [TestClass]
     public class HelloPresenterTests
     {
+        /// <summary>
+        /// Checks if the presenter works as expected.
+        /// </summary>
         [TestMethod]
         public void TestSayHello()
         {
