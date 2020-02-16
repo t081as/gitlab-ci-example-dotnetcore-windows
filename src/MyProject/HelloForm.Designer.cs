@@ -35,7 +35,7 @@
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.labelName = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             this.tableLayoutPanelMain.SuspendLayout();
             this.flowLayoutPanelLower.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -71,7 +71,7 @@
             // 
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Controls.Add(this.labelName);
-            this.flowLayoutPanel1.Controls.Add(this.textBox1);
+            this.flowLayoutPanel1.Controls.Add(this.textBoxName);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
             // labelName
@@ -81,8 +81,8 @@
             // 
             // textBox1
             // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
+            resources.ApplyResources(this.textBoxName, "textBox1");
+            this.textBoxName.Name = "textBox1";
             // 
             // HelloForm
             // 
@@ -107,7 +107,7 @@
         private System.Windows.Forms.TextBox textBoxResult;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxName;
     }
 }
 

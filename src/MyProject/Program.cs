@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Windows.Forms;
 
 namespace MyProject
 {
@@ -39,7 +40,9 @@ namespace MyProject
         [STAThread]
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new HelloForm());
         }
     }
 }

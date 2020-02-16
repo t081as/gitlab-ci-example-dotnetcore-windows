@@ -24,58 +24,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Windows.Forms;
 
 namespace MyProject
 {
     /// <summary>
-    /// Represents the main window of the application.
+    /// Describes objects able to serve as a view.
     /// </summary>
-    public partial class HelloForm : Form, IHelloView
+    public interface IHelloView
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HelloForm"/> class.
+        /// Triggered when the user requests a hello.
         /// </summary>
-        public HelloForm()
-        {
-            InitializeComponent();
-        }
+        event EventHandler SayHello;
 
-        /// <inheritdoc />
-        public event EventHandler SayHello;
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>The name of the user.</value>
+        string UserName { get; set; }
 
-        /// <inheritdoc />
-        public string HelloMessage
-        {
-            get => this.textBoxResult.Text;
-            set
-            {
-                if (this.InvokeRequired)
-                {
-                    this.Invoke((Action)delegate { this.textBoxResult.Text = value; });
-                }
-                else
-                {
-                    this.textBoxResult.Text = value;
-                }
-            }
-        }
-
-        /// <inheritdoc />
-        public string UserName
-        {
-            get => this.textBoxName.Text;
-            set
-            {
-                if (this.InvokeRequired)
-                {
-                    this.Invoke((Action)delegate { this.textBoxName.Text = value; });
-                }
-                else
-                {
-                    this.textBoxName.Text = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Gets or sets the hello message shown to the user.
+        /// </summary>
+        string HelloMessage { get; set; }
     }
 }
