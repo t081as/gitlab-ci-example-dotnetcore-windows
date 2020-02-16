@@ -19,7 +19,7 @@ release:
         paths:
           - ./*.zip
     script:
-        - ./build.ps1 --configuration Release --buildnumber $CI_PIPELINE_IID
+        - ./build.ps1 --configuration Release
 
 debug:
     extends:
