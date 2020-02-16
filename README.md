@@ -19,7 +19,7 @@ or
 
     > .\build.ps1 --configuration Debug
 
-- The [nuke build script](https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore-windows/-/blob/master/build/BuildTargets.cs) uses [JUnitXml.TestLogger](https://www.nuget.org/packages/JunitXml.TestLogger/) to generate a [unit test result file that can be parsed by gitlab](https://docs.gitlab.com/ee/ci/junit_test_reports.html)
+- The [nuke build script](https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore-windows/-/blob/master/build/BuildTargets.cs) uses [JUnitXml.TestLogger](https://www.nuget.org/packages/JunitXml.TestLogger/) to generate an [unit test result file that can be parsed by gitlab](https://docs.gitlab.com/ee/ci/junit_test_reports.html)
 - The [nuke build script](https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore-windows/-/blob/master/build/BuildTargets.cs) uses [Coverlet.Collector](https://www.nuget.org/packages/coverlet.collector/) together with [ReportGenerator](https://www.nuget.org/packages/ReportGenerator/) to generate a html code coverage report and [allow gitlab to display the code coverage](https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing) of the unit tests
 
 ## Release
@@ -42,4 +42,4 @@ see [CONTRIBUTING.md](https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore
 Thanks for your interest in this project. You can show your appreciation and support further development by [donating](https://www.tk-software.de/donate).
 
 ## License
-**gitlab-ci-example-dotnetcore** © 2019-2020  Tobias Koch. Released under the [MIT License](https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore-windows/blob/master/LICENSE.md).
+**gitlab-ci-example-dotnetcore** © 2019-2020  [Tobias Koch](https://www.tk-software.de). Released under the [MIT License](https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore-windows/blob/master/LICENSE.md).

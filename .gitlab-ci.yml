@@ -6,12 +6,12 @@
 
 stages:
     - test
-    - deploy
+    - build
 
 release:
     extends:
         - .shared_windows_runners
-    stage: deploy
+    stage: build
     only:
         - tags
     artifacts:
