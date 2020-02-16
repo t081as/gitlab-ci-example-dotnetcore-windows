@@ -77,5 +77,15 @@ namespace MyProject
                 }
             }
         }
+
+        /// <summary>
+        /// Handles the a click of the <see cref="buttonSay"/>.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">An empty <see cref="EventArgs"/>.</param>
+        private void buttonSay_Click(object sender, System.EventArgs e)
+        {
+            this.SayHello?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

@@ -24,29 +24,37 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Windows.Forms;
-
 namespace MyProject
 {
     /// <summary>
-    /// Contains the main entry point of the application.
+    /// Represents a presenter managing an instance of an object implementing
+    /// the <see cref="IHelloView"/> interface.
     /// </summary>
-    public class Program
+    public class HelloPresenter
     {
         /// <summary>
-        /// The main entry point of the application.
+        /// The reference to the view.
         /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        [STAThread]
-        public static void Main(string[] args)
+        private IHelloView view;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HelloPresenter"/>,
+        /// </summary>
+        /// <param name="view">The reference to the view.</param>
+        public HelloPresenter(IHelloView view)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            this.view = view;
+            this.view.SayHello += View_SayHello;
+        }
 
-            HelloForm mainForm = new HelloForm();
-            HelloPresenter presenter = new HelloPresenter(mainForm);
-
-            Application.Run(mainForm);
+        /// <summary>
+        /// Handles the <see cref="IHelloView.SayHello"/> event.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">An empty <see cref="EventArgs"/>.</param>
+        private void View_SayHello(object sender, EventArgs e)
+        {
+            this.view.HelloMessage = string.Format(HelloPresenterResources.HelloMsg, this.view.UserName);
         }
     }
 }

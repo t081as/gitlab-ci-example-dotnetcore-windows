@@ -60,6 +60,7 @@
             resources.ApplyResources(this.buttonSay, "buttonSay");
             this.buttonSay.Name = "buttonSay";
             this.buttonSay.UseVisualStyleBackColor = true;
+            this.buttonSay.Click += new System.EventHandler(this.buttonSay_Click);
             // 
             // textBoxResult
             // 
