@@ -36,6 +36,7 @@ namespace MyProject
         /// The main entry point of the application.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
+        [STAThread]
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
